@@ -32,22 +32,23 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+    expect(productsICanEat.length).toBe(1);
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
 
       var productsICanEat = [];
 
-      /* solve using filter() & all() / any() */
+      
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
+  
+    expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (imperative)", function () {
-
+ 
     var sum = 0;
     for(var i=1; i<1000; i+=1) {
       if (i % 3 === 0 || i % 5 === 0) {
@@ -55,14 +56,18 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
 
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
 
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    var arr = _.range(0, 1000, 3).concat(_.range(0, 1000, 5), _.range(0, -1000, -15));
 
-    expect(233168).toBe(FILL_ME_IN);
+    var sum = arr.reduce(function(memo, next) {
+      return memo+next;
+    })
+
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
@@ -75,15 +80,33 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
-    /* chain() together map(), flatten() and reduce() */
+    /* chain() together map(), flatten() and reduce() 
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    ingredientCount['mushrooms'] = _(products.ingredients).chain()
+                                              .map(function(x) { if (x === "mushrooms") return x; })
+                                              .flatten()
+                                              .reduce(function(memo, next) {
+                                                return memo++;
+                                              }, 0);
+                                              */
+
+    var arr = ['wheat and/or its byproducts'];
+    for (var i = 0; i < products.length; i++) {
+      arr = arr.concat(products[i].ingredients);
+    }
+
+    ingredientCount['mushrooms'] = arr.filter(function (ingredient) {
+        return (ingredient === 'mushrooms');
+      }).length;
+  
+
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
